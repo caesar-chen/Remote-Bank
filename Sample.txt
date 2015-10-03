@@ -1,0 +1,596 @@
+TCP:
+
+DrEvil has 99.9 in his bank account, and his password is minime123
+Server:
+(normal action, withdraw)
+javac bankServerTCP.java
+lawn-128-61-49-154:3251 caesar$ java bankServerTCP 8591 -d
+Handling client at /127.0.0.1:50856
+Waiting client to send Authentication Request
+Received request, now sending challeng string
+challeng is 3AhKzaHLEQjOQO6DqimA3HySd3R2xFTxQOjdfWwTFBIzh6lAAxZqHPv221XRy19x
+Get Username: DrEvil
+Get Hash From Client: fc4fd583628d67e604f64c605532a7bf
+Validate Username
+Validate Hash
+Check if Succeed Validate or Failed
+Get command
+Command is withdraw
+Ammount is 10
+Transaction Success
+Transaction Finished!
+
+(withdraw negative number)
+Handling client at /127.0.0.1:50860
+Waiting client to send Authentication Request
+Received request, now sending challeng string
+challeng is z2s4ASxNZOFEg48RSZ6BpAcFUYN8TnTBmd1K9tnJ09EecwE1elcQ2AK2EgqUwFIy
+Get Username: DrEvil
+Get Hash From Client: d9017b9d1a896e8a4d791fb311779405
+Validate Username
+Validate Hash
+Check if Succeed Validate or Failed
+Get command
+Command is withdraw
+Ammount is -10
+You can't withdraw negative amount to your account or you account doesn't have enough money
+Transaction Fail
+Transaction Finished!
+
+(wrong username)
+Handling client at /127.0.0.1:50863
+Waiting client to send Authentication Request
+Received request, now sending challeng string
+challeng is AGIx6HY5SfzHhF65CUBgeud2mc2R8N5dH1gFZdwus6SqOtMvTuOGO4CPqApoCcy2
+Get Username: DrEvils
+Get Hash From Client: 2b2925e295fc8f4ee958e432758a4757
+Validate Username
+Authentication Failed
+
+(wrong password)
+Handling client at /127.0.0.1:50866
+Waiting client to send Authentication Request
+Received request, now sending challeng string
+challeng is VOWHmzVQCab7nnyoIVIuKx3phvvcq6IXdvIwFNLRH9hRvDG7r9b0ryJ9EDXkqnbo
+Get Username: DrEvil
+Get Hash From Client: 5a69205d5f5c313f97a9ca9cb0eeb0e3
+Validate Username
+Validate Hash
+Check if Succeed Validate or Failed
+Wrong Password!
+
+(withdraw too much)
+Handling client at /127.0.0.1:50880
+Waiting client to send Authentication Request
+Received request, now sending challeng string
+challeng is hhugjaIHiqhCa5R6zx76U7HKmrRoEvIt5uNRT69IQX2ncOv26fzqX00wQjxNysuQ
+Get Username: DrEvil
+Get Hash From Client: 71351297a65bc0e57b6928901e35ecf1
+Validate Username
+Validate Hash
+Check if Succeed Validate or Failed
+Get command
+Command is withdraw
+Ammount is 5000
+You can't withdraw negative amount to your account or you account doesn't have enough money
+Transaction Fail
+Transaction Finished!
+
+(normal action, deposite)
+Handling client at /127.0.0.1:50883
+Waiting client to send Authentication Request
+Received request, now sending challeng string
+challeng is 58ledrePp1mkTcCgHY6aCgtfruTE7jpg9wB6v54e1pCYuXBuoVrxltJubhVFSUdt
+Get Username: DrEvil
+Get Hash From Client: a6709b70dd39cdaad66a9150c4f10b46
+Validate Username
+Validate Hash
+Check if Succeed Validate or Failed
+Get command
+Command is deposit
+Ammount is 5000
+Transaction Success
+Transaction Finished!
+
+(deposite negative amount)
+Handling client at /127.0.0.1:50884
+Waiting client to send Authentication Request
+Received request, now sending challeng string
+challeng is J6y64n8eDqVZQUAO3dzbDzRL6Ejkk0F2FvE18RUZeEtOGDj0EQD2WINlHXEVJkA5
+Get Username: DrEvil
+Get Hash From Client: 6f832681927c2f3fe289aab8fde95fca
+Validate Username
+Validate Hash
+Check if Succeed Validate or Failed
+Get command
+Command is deposit
+Ammount is -5000
+You can't deposit negative amount to your account
+Transaction Fail
+Transaction Finished!
+
+Client:
+lawn-128-61-49-154:3251 caesar$ javac remoteBankTCP.java
+lawn-128-61-49-154:3251 caesar$ java remoteBankTCP 127.0.0.1:8591 DrEvil minime123 withdraw 10 -d
+Connected to server 127.0.0.1 at port #8591
+Sending Authentication Request to Server
+Getting challenge...
+Challenge is 3AhKzaHLEQjOQO6DqimA3HySd3R2xFTxQOjdfWwTFBIzh6lAAxZqHPv221XRy19x
+Send Username to Server
+Compute Hash Using MD5
+Hash is: fc4fd583628d67e604f64c605532a7bf
+Sending Hash to Server
+Verified
+Sending Action to Server...
+Sending Amount to Server...
+Get Remain Money From Server
+Your new account balance is 89.9
+Finished, Close Server
+
+lawn-128-61-49-154:3251 caesar$ java remoteBankTCP 127.0.0.1:8591 DrEvil minime123 withdraw -10 -d
+Connected to server 127.0.0.1 at port #8591
+Sending Authentication Request to Server
+Getting challenge...
+Challenge is z2s4ASxNZOFEg48RSZ6BpAcFUYN8TnTBmd1K9tnJ09EecwE1elcQ2AK2EgqUwFIy
+Send Username to Server
+Compute Hash Using MD5
+Hash is: d9017b9d1a896e8a4d791fb311779405
+Sending Hash to Server
+Verified
+Sending Action to Server...
+Sending Amount to Server...
+Get Remain Money From Server
+Fails, reasons maybe 1. Amount must be greater than zero or 2. not enough money in you account
+Finished, Close Server
+
+lawn-128-61-49-154:3251 caesar$ java remoteBankTCP 127.0.0.1sdf:8591 DrEvil minime123 withdraw -10 -d
+Invalid server address
+
+lawn-128-61-49-154:3251 caesar$ java remoteBankTCP 127.0.0.1:85sd91 DrEvil minime123 withdraw -10 -d
+Invalid Port #
+
+lawn-128-61-49-154:3251 caesar$ java remoteBankTCP 127.0.0.1:8591 DrEvils minime123 withdraw -10 -d
+Connected to server 127.0.0.1 at port #8591
+Sending Authentication Request to Server
+Getting challenge...
+Challenge is AGIx6HY5SfzHhF65CUBgeud2mc2R8N5dH1gFZdwus6SqOtMvTuOGO4CPqApoCcy2
+Send Username to Server
+Compute Hash Using MD5
+Hash is: 2b2925e295fc8f4ee958e432758a4757
+Sending Hash to Server
+Invalid Username!
+Not Verified
+
+lawn-128-61-49-154:3251 caesar$ java remoteBankTCP 127.0.0.1:8591 DrEvil minime123sss withdraw -10 -d
+Connected to server 127.0.0.1 at port #8591
+Sending Authentication Request to Server
+Getting challenge...
+Challenge is VOWHmzVQCab7nnyoIVIuKx3phvvcq6IXdvIwFNLRH9hRvDG7r9b0ryJ9EDXkqnbo
+Send Username to Server
+Compute Hash Using MD5
+Hash is: 5a69205d5f5c313f97a9ca9cb0eeb0e3
+Sending Hash to Server
+Wrong Password!
+Not Verified
+
+lawn-128-61-49-154:3251 caesar$ java remoteBankTCP 127.0.0.1:8591 DrEvil minime123 withdrawalot -10 -d
+Invalid Operation!
+
+lawn-128-61-49-154:3251 caesar$ java remoteBankTCP 127.0.0.1:8591 DrEvil minime123 withdraw 5000 -d
+Connected to server 127.0.0.1 at port #8591
+Sending Authentication Request to Server
+Getting challenge...
+Challenge is hhugjaIHiqhCa5R6zx76U7HKmrRoEvIt5uNRT69IQX2ncOv26fzqX00wQjxNysuQ
+Send Username to Server
+Compute Hash Using MD5
+Hash is: 71351297a65bc0e57b6928901e35ecf1
+Sending Hash to Server
+Verified
+Sending Action to Server...
+Sending Amount to Server...
+Get Remain Money From Server
+Fails, reasons maybe 1. Amount must be greater than zero or 2. not enough money in you account
+Finished, Close Server
+
+lawn-128-61-49-154:3251 caesar$ java remoteBankTCP 127.0.0.1:8591 DrEvil minime123 deposit 5000 -d
+Connected to server 127.0.0.1 at port #8591
+Sending Authentication Request to Server
+Getting challenge...
+Challenge is 58ledrePp1mkTcCgHY6aCgtfruTE7jpg9wB6v54e1pCYuXBuoVrxltJubhVFSUdt
+Send Username to Server
+Compute Hash Using MD5
+Hash is: a6709b70dd39cdaad66a9150c4f10b46
+Sending Hash to Server
+Verified
+Sending Action to Server...
+Sending Amount to Server...
+Get Remain Money From Server
+Your new account balance is 5089.9
+Finished, Close Server
+
+lawn-128-61-49-154:3251 caesar$ java remoteBankTCP 127.0.0.1:8591 DrEvil minime123 deposit -5000 -d
+Connected to server 127.0.0.1 at port #8591
+Sending Authentication Request to Server
+Getting challenge...
+Challenge is J6y64n8eDqVZQUAO3dzbDzRL6Ejkk0F2FvE18RUZeEtOGDj0EQD2WINlHXEVJkA5
+Send Username to Server
+Compute Hash Using MD5
+Hash is: 6f832681927c2f3fe289aab8fde95fca
+Sending Hash to Server
+Verified
+Sending Action to Server...
+Sending Amount to Server...
+Get Remain Money From Server
+Amount must be greater than zero
+Finished, Close Server
+
+
+UDP:
+
+Server:
+
+//normal action, withdraw
+lawn-128-61-49-154:udp caesar$ javac bankServerUDP.java
+lawn-128-61-49-154:udp caesar$ java bankServerUDP 8591 -d
+Handling client at 127.0.0.1 on port 56455
+Wait client at /127.0.0.1
+Request for Authentication
+Generating Challenge
+challeng is kG2qOtidXwjfOHom67Na7vlMMjICSZlUyN1BHjwrDMOvd40DJTWavzEO7BrQQKnL
+Received request, now sending challenge string
+Handling client at 127.0.0.1 on port 56455
+Wait client at /127.0.0.1
+DrEvil
+Get Username form client
+Sending Username ACK
+Reset packet
+Handling client at 127.0.0.1 on port 56455
+Wait client at /127.0.0.1
+4d26b046772fe7f22255c0b454b10acf
+Get Hash form client 4d26b046772fe7f22255c0b454b10acf
+Validate Username
+HashFromServer: 4d26b046772fe7f22255c0b454b10acf
+Validate Hash
+Authentication Successful.
+Sending Confirm Back To Client
+Reset packet
+Handling client at 127.0.0.1 on port 56455
+Wait client at /127.0.0.1
+withdraw
+Get command
+Command: withdraw
+Send aciton ACK
+Reset packet
+Handling client at 127.0.0.1 on port 56455
+Wait client at /127.0.0.1
+20
+Get Amount
+Ammount is 20.0
+Transaction Finished
+New account balance is 79.9
+Reset packet
+
+// withdraw negative amount
+Handling client at 127.0.0.1 on port 56456
+Wait client at /127.0.0.1
+Request for Authentication
+Generating Challenge
+challeng is Q9BqKXJHu6qY8p1bXW4ytGYWt8ESGxpzDfJdq1HF2KTFYfphfxk5HNg2bPC2NDLo
+Received request, now sending challenge string
+Handling client at 127.0.0.1 on port 56456
+Wait client at /127.0.0.1
+DrEvil
+Get Username form client
+Sending Username ACK
+Reset packet
+Handling client at 127.0.0.1 on port 56456
+Wait client at /127.0.0.1
+87d382148fc4bf7dd0a3548790d266e9
+Get Hash form client 87d382148fc4bf7dd0a3548790d266e9
+Validate Username
+HashFromServer: 87d382148fc4bf7dd0a3548790d266e9
+Validate Hash
+Authentication Successful.
+Sending Confirm Back To Client
+Reset packet
+Handling client at 127.0.0.1 on port 56456
+Wait client at /127.0.0.1
+withdraw
+Get command
+Command: withdraw
+Send aciton ACK
+Reset packet
+Handling client at 127.0.0.1 on port 56456
+Wait client at /127.0.0.1
+-20
+Get Amount
+Ammount is -20.0
+You can't withdraw negative
+Transaction Fail
+Transaction Finished
+You can't withdraw negative amount
+Reset packet
+
+// wrong username
+Handling client at 127.0.0.1 on port 56457
+Wait client at /127.0.0.1
+Request for Authentication
+Generating Challenge
+challeng is JgfOrLEhtAZsZaKOWVu7oaEAIyYmL1tnQqTTBisjNqKhecIFzEt6jkHDPvyz8xiZ
+Received request, now sending challenge string
+Handling client at 127.0.0.1 on port 56457
+Wait client at /127.0.0.1
+DrEvild
+Get Username form client
+Sending Username ACK
+Reset packet
+Handling client at 127.0.0.1 on port 56457
+Wait client at /127.0.0.1
+65a1e6f7fd7b1d51519f1f2abe01b258
+Get Hash form client 65a1e6f7fd7b1d51519f1f2abe01b258
+Validate Username
+Wrong username.
+
+// wrong password
+Handling client at 127.0.0.1 on port 56458
+Wait client at /127.0.0.1
+Request for Authentication01b258
+Generating Challenge
+challeng is IjzsXxdq8zjXJkraDQVluN6M2ku9JQSNhPk3RNUUZjdMh3rGKTwV1kPY5sauMwRL
+Received request, now sending challenge string
+Handling client at 127.0.0.1 on port 56458
+Wait client at /127.0.0.1
+DrEvil
+Get Username form client
+Sending Username ACK
+Reset packet
+Handling client at 127.0.0.1 on port 56458
+Wait client at /127.0.0.1
+de17ed83fd15ba191ccb9fb5c5aae881
+Get Hash form client de17ed83fd15ba191ccb9fb5c5aae881
+Validate Username
+HashFromServer: 915c732fe7f803168d1cf83201889848
+Validate Hash
+Wrong password.
+
+// withdraw too much
+Handling client at 127.0.0.1 on port 56459
+Wait client at /127.0.0.1
+Request for Authenticationaae881
+Generating Challenge
+challeng is DF2l0IkO5gpCtfXZ02ciFPLcb8e1AYLD8hcxrBqMvtz8tgnja0EbZlbONJalavXf
+Received request, now sending challenge string
+Handling client at 127.0.0.1 on port 56459
+Wait client at /127.0.0.1
+DrEvil
+Get Username form client
+Sending Username ACK
+Reset packet
+Handling client at 127.0.0.1 on port 56459
+Wait client at /127.0.0.1
+6c196eb2214eede77f007573d34742e3
+Get Hash form client 6c196eb2214eede77f007573d34742e3
+Validate Username
+HashFromServer: 6c196eb2214eede77f007573d34742e3
+Validate Hash
+Authentication Successful.
+Sending Confirm Back To Client
+Reset packet
+Handling client at 127.0.0.1 on port 56459
+Wait client at /127.0.0.1
+withdraw
+Get command
+Command: withdraw
+Send aciton ACK
+Reset packet
+Handling client at 127.0.0.1 on port 56459
+Wait client at /127.0.0.1
+2000
+Get Amount
+Ammount is 2000.0
+Transaction Finished
+Not enough money
+Reset packet
+
+// normal deposit action
+Handling client at 127.0.0.1 on port 56460
+Wait client at /127.0.0.1
+Request for Authentication
+Generating Challenge
+challeng is WNV7I7ZEynKtDqp7SxX3tBz4HpQ9zYIRYXn0yaKEqj469EJn97XUBAO66negjqbW
+Received request, now sending challenge string
+Handling client at 127.0.0.1 on port 56460
+Wait client at /127.0.0.1
+DrEvil
+Get Username form client
+Sending Username ACK
+Reset packet
+Handling client at 127.0.0.1 on port 56460
+Wait client at /127.0.0.1
+e296b00ce62c3e8ca9d0de13eda8f4e1
+Get Hash form client e296b00ce62c3e8ca9d0de13eda8f4e1
+Validate Username
+HashFromServer: e296b00ce62c3e8ca9d0de13eda8f4e1
+Validate Hash
+Authentication Successful.
+Sending Confirm Back To Client
+Reset packet
+Handling client at 127.0.0.1 on port 56460
+Wait client at /127.0.0.1
+deposit
+Get command
+Command: deposit
+Send aciton ACK
+Reset packet
+Handling client at 127.0.0.1 on port 56460
+Wait client at /127.0.0.1
+2000
+Get Amount
+Ammount is 2000.0
+Transaction Success
+Transaction Finished
+Your new account balance is 2079.9
+Reset packet
+
+// deposite negative amount
+Handling client at 127.0.0.1 on port 56461
+Wait client at /127.0.0.1
+Request for Authentication
+Generating Challenge
+challeng is hNAAIRybja7ctWrJgGQfhRTVivvPajD8Bo2h4jQUOXSq03jKaw8QiqRCc1zuAe2u
+Received request, now sending challenge string
+Handling client at 127.0.0.1 on port 56461
+Wait client at /127.0.0.1
+DrEvil
+Get Username form client
+Sending Username ACK
+Reset packet
+Handling client at 127.0.0.1 on port 56461
+Wait client at /127.0.0.1
+c302e349a6a036326dddbe8f84a9da15
+Get Hash form client c302e349a6a036326dddbe8f84a9da15
+Validate Username
+HashFromServer: c302e349a6a036326dddbe8f84a9da15
+Validate Hash
+Authentication Successful.
+Sending Confirm Back To Client
+Reset packet
+Handling client at 127.0.0.1 on port 56461
+Wait client at /127.0.0.1
+deposit
+Get command
+Command: deposit
+Send aciton ACK
+Reset packet
+Handling client at 127.0.0.1 on port 56461
+Wait client at /127.0.0.1
+-2000
+Get Amount
+Ammount is -2000.0
+You can't deposit negative amount
+Transaction Fail
+Transaction Finished
+You can't deposit negative amount
+Reset packet
+
+
+
+Client:
+lawn-128-61-49-154:udp caesar$ javac remoteBankUDP.java
+lawn-128-61-49-154:udp caesar$ java remoteBankUDP 127.0.0.1:8591 DrEvil minime123 withdraw 20 -d
+UDP Socket timeout is 3s
+Sending Authentication Request to Server
+Sending Authentication Request to Server
+Getting challenge...
+Challenge is kG2qOtidXwjfOHom67Na7vlMMjICSZlUyN1BHjwrDMOvd40DJTWavzEO7BrQQKnL
+Compute Hash Using MD5
+Hash is: 4d26b046772fe7f22255c0b454b10acf
+Sending username to Server
+Username ACK
+Sending Hash to Server
+Verified
+Sending Action to Server...
+ActionACK
+Sending Amount to Server...
+New account balance is 79.9
+Thank you for banking with us.
+
+lawn-128-61-49-154:udp caesar$ java remoteBankUDP 127.0.0.1:8591 DrEvil minime123 withdraw -20 -d
+UDP Socket timeout is 3s
+Sending Authentication Request to Server
+Sending Authentication Request to Server
+Getting challenge...
+Challenge is Q9BqKXJHu6qY8p1bXW4ytGYWt8ESGxpzDfJdq1HF2KTFYfphfxk5HNg2bPC2NDLo
+Compute Hash Using MD5
+Hash is: 87d382148fc4bf7dd0a3548790d266e9
+Sending username to Server
+Username ACK
+Sending Hash to Server
+Verified
+Sending Action to Server...
+ActionACK
+Sending Amount to Server...
+You can't withdraw negative amount
+Thank you for banking with us.
+
+lawn-128-61-49-154:udp caesar$ java remoteBankUDP 127.0.0.1:8591 DrEvild minime123 withdraw 20 -d
+UDP Socket timeout is 3s
+Sending Authentication Request to Server
+Sending Authentication Request to Server
+Getting challenge...
+Challenge is JgfOrLEhtAZsZaKOWVu7oaEAIyYmL1tnQqTTBisjNqKhecIFzEt6jkHDPvyz8xiZ
+Compute Hash Using MD5
+Hash is: 65a1e6f7fd7b1d51519f1f2abe01b258
+Sending username to Server
+Username ACK
+Sending Hash to Server
+Wrong username!
+Not Verified
+
+lawn-128-61-49-154:udp caesar$ java remoteBankUDP 127.0.0.1:8591 DrEvil dminime123 withdraw 20 -d
+UDP Socket timeout is 3s
+Sending Authentication Request to Server
+Sending Authentication Request to Server
+Getting challenge...
+Challenge is IjzsXxdq8zjXJkraDQVluN6M2ku9JQSNhPk3RNUUZjdMh3rGKTwV1kPY5sauMwRL
+Compute Hash Using MD5
+Hash is: de17ed83fd15ba191ccb9fb5c5aae881
+Sending username to Server
+Username ACK
+Sending Hash to Server
+Wrong Password!
+Not Verified
+
+lawn-128-61-49-154:udp caesar$ java remoteBankUDP 127.0.0.1:8591 DrEvil minime123 withdraw 2000 -d
+UDP Socket timeout is 3s
+Sending Authentication Request to Server
+Sending Authentication Request to Server
+Getting challenge...
+Challenge is DF2l0IkO5gpCtfXZ02ciFPLcb8e1AYLD8hcxrBqMvtz8tgnja0EbZlbONJalavXf
+Compute Hash Using MD5
+Hash is: 6c196eb2214eede77f007573d34742e3
+Sending username to Server
+Username ACK
+Sending Hash to Server
+Verified
+Sending Action to Server...
+ActionACK
+Sending Amount to Server...
+Not enough money
+Thank you for banking with us.
+
+lawn-128-61-49-154:udp caesar$ java remoteBankUDP 127.0.0.1:8591 DrEvil minime123 deposit 2000 -d
+UDP Socket timeout is 3s
+Sending Authentication Request to Server
+Sending Authentication Request to Server
+Getting challenge...
+Challenge is WNV7I7ZEynKtDqp7SxX3tBz4HpQ9zYIRYXn0yaKEqj469EJn97XUBAO66negjqbW
+Compute Hash Using MD5
+Hash is: e296b00ce62c3e8ca9d0de13eda8f4e1
+Sending username to Server
+Username ACK
+Sending Hash to Server
+Verified
+Sending Action to Server...
+ActionACK
+Sending Amount to Server...
+Your new account balance is 2079.9
+Thank you for banking with us.
+
+lawn-128-61-49-154:udp caesar$ java remoteBankUDP 127.0.0.1:8591 DrEvil minime123 deposit -2000 -d
+UDP Socket timeout is 3s
+Sending Authentication Request to Server
+Sending Authentication Request to Server
+Getting challenge...
+Challenge is hNAAIRybja7ctWrJgGQfhRTVivvPajD8Bo2h4jQUOXSq03jKaw8QiqRCc1zuAe2u
+Compute Hash Using MD5
+Hash is: c302e349a6a036326dddbe8f84a9da15
+Sending username to Server
+Username ACK
+Sending Hash to Server
+Verified
+Sending Action to Server...
+ActionACK
+Sending Amount to Server...
+You can't deposit negative amount
+Thank you for banking with us.

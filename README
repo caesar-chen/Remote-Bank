@@ -1,0 +1,64 @@
+Shizhe Chen
+schen381@gatech.edu
+CS3251, section A
+Sep25, 2015, Programming Assignment 1
+
+files:
+remoteBankTCP.java      code for remote bank client using TCP protocol
+bankServerTCP.java      code for bank server using TCP protocol
+remoteBankUDP.java      code for remote bank client using UDP protocol
+bankServerUDP.java      code for bank server using UDP protocol
+README                  instructions of files
+Sample.txt              sample output of code
+
+How to Run? (MAC OS)
+1. For TCP:
+Terminal 1:
+javac bankServerTCP.java
+java bankServerTCP 8591(port#) -d(optional debug mode)
+Terminal 2:
+javac remoteBankTCP.java
+java remoteBankTCP 127.0.0.1:8591(IP:Port#) DrEvil(username) minime123(password) withdraw(action) 27.444(amount) -d(optional debug mode)
+2. For UDP
+Terminal 1:
+javac bankServerUDP.java
+java bankServerUDP 8591(port#) -d(optional debug mode)
+Terminal 2:
+javac remoteBankUDP.java
+java remoteBankUDP 127.0.0.1:8591(IP:Port#) DrEvil(username) minime123(password) withdraw(action) 27.444(amount) -d(optional debug mode)
+
+Note: Have to run server first, because if run client first, it can't find a port to communicate to, then raise java.net.ConnectException.
+All invalid inputs are handled, you can see different error messages concern about invalid inputs' situations in Terminal.
+
+Description of application's TCP protocol:
+First to handle illegal arguments, and invalid inputs. Come up with all possible cases. After ensure we got all necessary inputs, clients starts sending authentication request. Server will check if it's authentication request or not, if it is send client with a random generated 64 chars challenge, and if it's not, some error occurs, done with this client.
+
+After received challenge, client side will generate MD5, send to client side with username together. Server will check if user exist in database or not first. If exist, we check hash value to reflect correctness of password, if user doesn't exist, alert client wrong user name, and done with the client. If user exist, while password is wrong, also notify client with wrong password, also done with the client.
+
+If user has been identified, we can start operations on his bank account. Since we handle invalid action at the very beginning, there is no need to worry about. However, we do have several situations to think about. Situation one, at deposit. We can't deposit negative money. Situation two, can't withdraw negative money. Situation three, can't withdraw more money than current account balance. These situations has been correctly handled in my code. At very end, we need to update user's account information in our bank database, and send client side with corresponding message. (succeed or failed, and reasons why failed)
+
+If a client connects to a server and does not send anything, the server will be waiting, but it will not crash. Since it program is single-threaded, the server will not be able to process other client requests until the client closes the connection. Therefore, I use try-catch and set up timeout for client socket.
+
+
+Description of application's UDP protocol:
+Major ideas are identical to TCP protocol. However, since UDP support different clients at the same time, I need to record each client information and the state of current client in database.(HashMap)
+So I make a little sate machine for the server:
+Before state 0, we need to authenticate client and send challenge string, which is similar to TCP.
+State 0:
+    get user name from client, send ack
+State 1:
+    check if username is in database
+    get hash from client, generate MD5 from server side, compare it's value with client's
+    If matches, send ack
+State 2:
+    Getting instruction from client
+    send ack
+State 3:
+    get amount of money, do corresponding actions on bank account
+
+Also, UDP client has timeout and tries to send packet, since packet may get lost.
+
+Most specific documentations are in the source code.
+
+Bugs & Limitations:
+I have done detailed tests concerning every aspect, and the results are in Sample.txt. Need to ensure that client and sever use the same port number.
