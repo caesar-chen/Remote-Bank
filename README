@@ -1,7 +1,6 @@
 Shizhe Chen
 schen381@gatech.edu
-CS3251, section A
-Sep25, 2015, Programming Assignment 1
+Sep25, 2015
 
 files:
 remoteBankTCP.java      code for remote bank client using TCP protocol
